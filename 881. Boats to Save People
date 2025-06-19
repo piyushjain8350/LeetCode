@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int numRescueBoats(vector<int>& people, int limit) {
+
+        sort(people.begin(), people.end());  // Step 1: Sort the array
+        
+        int i = 0; // Pointer to the lightest person
+        int j = people.size() - 1; // Pointer to the heaviest person
+        int boats = 0;
+
+        while (i <= j) {
+            if (people[i] + people[j] <= limit) {
+                // They can go together
+                i++;
+                j--;
+            } else {
+                // Only the heavier one goes
+                j--;
+            }
+            boats++; // One boat used
+        }
+
+        return boats;
+    }
+};
