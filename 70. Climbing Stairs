@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int climbStairs(int n) {
+        vector<int> Track(n+1);
+        Track[0]=1;
+        Track[1]=1;
+        for(int i = 2; i <= n; ++i){
+            Track[i] = Track[i -1] + Track[i -2];
+        }
+        return Track[n];
+    }
+};
