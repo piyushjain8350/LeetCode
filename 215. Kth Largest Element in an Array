@@ -1,0 +1,29 @@
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        int left = *min_element(nums.begin(), nums.end());
+        int right = *max_element(nums.begin(), nums.end());
+
+        auto countGreaterOrEqual = [&](int mid) {
+            int count = 0;
+            for (int x : nums) {
+                if (x >= mid) count++;
+            }
+            return count;
+        };
+
+        while (left < right) {
+            int mid = left + (right - left + 1) / 2;
+            if (countGreaterOrEqual(mid) >= k) {
+                left = mid;  // mid might be the answer, look right
+            } else {
+                right = mid - 1; // too many small elements, look left
+            }
+        }
+        return left;
+    }
+};
