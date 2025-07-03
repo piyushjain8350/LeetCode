@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        // Create a boolean vector of size 256 (ASCII chars) initialized to 0
+        // to keep track of characters present in the current window
+        vector<bool> count(256, 0);
+
+        // Two pointers defining the current window: 'first' is start, 'second' is end
+        int first = 0, second = 0;
+
+        // Variable to keep track of the maximum length of substring found so far
+        int len = 0;
+
+        // Loop until 'second' reaches the end of string
+        while (second < s.size()) {
+            
+            // If the current character at 'second' is already in the window
+            while (count[s[second]]) {
+                // Remove the character at 'first' from the window
+                count[s[first]] = 0;
+                // Move the start of the window forward
+                first++;
+            }
+
+            // Mark the current character at 'second' as present in the window
+            count[s[second]] = 1;
+
+            // Update the maximum length if this window is longer
+            len = max(len, second - first + 1);
+
+            // Move the end of the window forward
+            second++;
+        }
+
+        // Return the length of the longest substring without repeating characters
+        return len;
+    }
+};
