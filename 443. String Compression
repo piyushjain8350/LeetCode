@@ -1,0 +1,39 @@
+class Solution {
+public:
+    // Function to compress the given array of characters in-place
+    int compress(vector<char>& chars) {
+        int i = 0;               // Pointer to traverse the input characters
+        int ansindex = 0;         // Position to place the compressed characters
+        int n = chars.size();     // Total length of the input array
+
+        // Loop through the entire chars array
+        while(i < n) {
+            int j = i + 1;
+
+            // Move j forward to count the number of same consecutive characters
+            while(j < n && chars[i] == chars[j]) {
+                j++;
+            }
+
+            // Store the current character at the ansindex position
+            chars[ansindex++] = chars[i];
+
+            // Calculate how many times the current character is repeated
+            int count = j - i;
+
+            // If count is more than 1, we need to insert the count digits into the array
+            if(count > 1) {
+                string cnt = to_string(count);  // Convert count to string
+                for(char ch : cnt) {
+                    chars[ansindex++] = ch;    // Insert each digit of count into the array
+                }
+            }
+
+            // Move i to the next group of characters
+            i = j;
+        }
+
+        // Return the length of the compressed array
+        return ansindex;
+    }
+};
