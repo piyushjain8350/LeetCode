@@ -1,0 +1,36 @@
+class Solution {
+public:
+    // Function to insert a new interval into a list of non-overlapping intervals
+    // and merge if necessary
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        vector<vector<int>> res; // Result vector to store merged intervals
+        int n = intervals.size();
+        int i = 0;
+
+        // --------------------
+        // 1️⃣ Insert all intervals that come before the new interval (no overlap)
+        while(i < n && intervals[i][1] < newInterval[0]) {
+            res.push_back(intervals[i++]); // Safe to add as it ends before newInterval starts
+        }
+
+        // --------------------
+        // 2️⃣ Merge all overlapping intervals with newInterval
+        while(i < n && intervals[i][0] <= newInterval[1]) {
+            // Expand newInterval to cover the overlapping intervals
+            newInterval[0] = min(newInterval[0], intervals[i][0]);
+            newInterval[1] = max(newInterval[1], intervals[i][1]);
+            ++i;
+        }
+
+        // Insert the merged newInterval
+        res.push_back(newInterval);
+
+        // --------------------
+        // 3️⃣ Insert the remaining intervals (that start after newInterval ends)
+        while(i < n) {
+            res.push_back(intervals[i++]);
+        }
+
+        return res; // Return the final list of intervals
+    }
+};
